@@ -1,6 +1,5 @@
 <<<<<<< HEAD
 # sq-server
-=======
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
@@ -41,8 +40,10 @@ $ npm install
 # development
 $ npm run start
 
-# watch mode
-$ npm run start:dev
+# watch admin
+$ npm run start:dev -w admin
+#s watch server
+$ npm run start:dev -w server
 
 # production mode
 $ npm run start:prod
@@ -74,4 +75,3 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
->>>>>>> 3e6701e (后端)

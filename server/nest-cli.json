@@ -1,16 +1,4 @@
 {
-<<<<<<< HEAD
-  "projects": {
-=======
-  "$schema": "https://json.schemastore.org/nest-cli",
-  "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/server/src",
-  "monorepo": true,
-  "root": "apps/server",
-  "compilerOptions": {
-    "webpack": true,
-    "tsConfigPath": "apps/server/tsconfig.app.json"
-  },
   "projects": {
     "server": {
       "type": "application",
@@ -30,7 +18,6 @@
         "tsConfigPath": "apps/admin/tsconfig.app.json"
       }
     },
->>>>>>> 3e6701e (后端)
     "db": {
       "type": "library",
       "root": "libs/db",
@@ -40,11 +27,8 @@
         "tsConfigPath": "libs/db/tsconfig.lib.json"
       }
     }
-<<<<<<< HEAD
   },
   "compilerOptions": {
     "webpack": true
-=======
->>>>>>> 3e6701e (后端)
   }
 }
