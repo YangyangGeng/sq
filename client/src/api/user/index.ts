@@ -35,3 +35,11 @@ export function _deleteUser(uid: string) {
         url: `/user/deleteUser/${uid}`
     })
 }
+
+export function _updateUser(data: any) {
+    return api({
+        method: 'PUT',
+        data,
+        url: `/user/updateUser`
+    })
+}

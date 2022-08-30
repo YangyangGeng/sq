@@ -65,5 +65,15 @@ export class UserService {
             }
         })
     }
+
+    public async updateUser(user: User) {
+        return await this.userModel.updateOne({ _id: user.id }, user)
+        .then(() => {
+            return this.response = {
+                success: true,
+                msg: '修改成功！'
+            }
+        })
+    }
 }
 

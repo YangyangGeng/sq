@@ -7,3 +7,11 @@ export function _login(data: Object) {
         url: '/auth/login'
     })
 }
+
+export function _register(data: Object) {
+    return api({
+        method: 'POST',
+        data,
+        url: '/auth/register'
+    })
+}

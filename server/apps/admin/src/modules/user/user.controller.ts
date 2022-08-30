@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
-import { Delete } from '@nestjs/common/decorators';
+import { Body, Delete, Put } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
@@ -39,9 +39,17 @@ export class UserController {
 
     @Delete('deleteUser/:uid')
     @ApiOperation({
-        summary: '获取用户信息'
+        summary: '删除用户信息'
     })
     public async deleteUser(@Param('uid') uid: string) {
         return await this.userService.deleteUser(uid)
+    }
+
+    @Put('updateUser')
+    @ApiOperation({
+        summary: '修改用户信息'
+    })
+    public async updateUser(@Body() user) {
+        return await this.userService.updateUser(user)
     }
 }
