@@ -5,6 +5,8 @@ import { AdminService } from './admin.service';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { CategoryModule } from './modules/category/category.module';
+import { BannerModule } from './modules/banner/banner.module';
+import { NoticeModule } from './modules/notice/notice.module';
 
 @Module({
   imports: [
@@ -12,6 +14,8 @@ import { CategoryModule } from './modules/category/category.module';
     UserModule,
     AuthModule,
     CategoryModule,
+    BannerModule,
+    NoticeModule,
   ],
   controllers: [AdminController],
   providers: [AdminService],

@@ -3,18 +3,14 @@ import { DbService } from './db.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './schemas/user.schema';
 import { CategorySchema } from './schemas/category.schema';
+import { BannerSchema } from './schemas/banner.schema';
+import { NoticeSchema } from './schemas/notice.schema';
 
 const MONGO_MODELS = MongooseModule.forFeature([
-    {
-        name: 'USER_MODEL',
-        schema: UserSchema,
-        collection: 'user'
-    },
-    {
-        name: 'CATEGORY_MODEL',
-        schema: CategorySchema,
-        collection: 'category'
-    }
+    { name: 'USER_MODEL', schema: UserSchema, collection: 'user' },
+    { name: 'CATEGORY_MODEL', schema: CategorySchema, collection: 'category' },
+    { name: 'BANNER_MODEL', schema: BannerSchema, collection: 'banner' },
+    { name: 'NOTICE_MODEL', schema: NoticeSchema, collection: 'notice' },
 ])
 
 @Global()

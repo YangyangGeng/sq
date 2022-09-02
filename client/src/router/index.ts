@@ -4,7 +4,7 @@
     import User from '../views/User.vue'
     import Category from '../views/Category.vue'
     import Banner from '../views/Banner.vue'
-    import SystemMessage from '../views/SystemMessage.vue'
+    import Notice from '../views/Notice.vue'
 
     const routes = [
         { path: '/', redirect: '/home' },
@@ -12,7 +12,7 @@
         { path: '/login', name: 'login', component: Login },
         { path: '/user', name: 'user', component: User },
         { path: '/category', name: 'category', component: Category },
-        { path: '/message', name: 'message', component: SystemMessage },
+        { path: '/notice', name: 'notice', component: Notice },
         { path: '/banner', name: 'banner', component: Banner },
     ]
   

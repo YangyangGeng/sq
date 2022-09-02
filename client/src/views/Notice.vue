@@ -1,15 +1,10 @@
 <template>
     <div style="margin: 10px 0; text-align: right;">
-        <el-button type="primary" @click="showBanner(null)">新增Banner</el-button>
+        <el-button type="primary" @click="showNotice(null)">新增消息</el-button>
     </div>
     <el-table :data="data" row-key="_id" border style="width: 100%">
         <el-table-column type="index" label="序号" width="100" />
-        <el-table-column prop="name" label="Banner标题" />
-        <el-table-column label="Banner图片">
-            <template #default="{ row }">
-                <el-image style="width: 50px; height: 50px" :src="row.url" fit />
-            </template>
-        </el-table-column>
+        <el-table-column prop="message" label="消息内同" />
         <el-table-column prop="mid" label="绑定消息ID" width="120" />
         <el-table-column prop="status" label="状态" width="120">
             <template #default="{ row }">
@@ -26,29 +21,27 @@
                         <el-button size="small" type="warning">下线</el-button>
                     </template>
                 </el-popconfirm>
-                <el-button size="small" @click="showBanner(row)">编辑</el-button>
+                <el-button size="small" @click="showNotice(row)">编辑</el-button>
             </template>
         </el-table-column>
   </el-table>
   <el-pagination v-model:currentPage="currentPage" :page-size="pageSize"
       layout="total, prev, pager, next" :total="total" :background="true"
-      @size-change="getBanner" @current-change="getBanner"/>
-  <el-dialog v-model="bannerForm.show" title="新增消息" width="450px">
-        <el-form ref="bannerRef" :model="bannerForm" label-width="110px">
-            <el-form-item label="Banner名字" prop="name" :rules="{ required: true, message: '请输入Banner名字' }">
-                <el-input v-model="bannerForm.name" placeholder="请输入Banner名字" />
-            </el-form-item>
-            <el-form-item label="Banner图片" prop="url" :rules="{ required: true, message: '请输入Banner图片' }">
-                <el-input v-model="bannerForm.url" placeholder="请输入Banner图片" />
+      @size-change="getNotice" @current-change="getNotice"/>
+  <!-- 新增消息 -->
+  <el-dialog v-model="noticeForm.show" title="新增消息" width="450px">
+        <el-form ref="noticeRef" :model="noticeForm" label-width="80px">
+            <el-form-item label="消息内容" prop="message" :rules="{ required: true, message: '请输入消息内容' }">
+                <el-input v-model="noticeForm.message" placeholder="请输入消息内容" />
             </el-form-item>
             <el-form-item label="消息ID">
-                <el-input v-model="bannerForm.mid"  placeholder="请输入消息ID" />
+                <el-input v-model="noticeForm.mid"  placeholder="请上传分类图片" />
             </el-form-item>
         </el-form>
         <template #footer>
             <span class="dialog-footer">
-                <el-button @click="bannerForm.show = false">取消</el-button>
-                <el-button type="primary" @click="saveBanner(bannerRef)">保存</el-button>
+                <el-button @click="noticeForm.show = false">取消</el-button>
+                <el-button type="primary" @click="saveNotice(noticeRef)">保存</el-button>
             </span>
         </template>
     </el-dialog>
@@ -56,7 +49,7 @@
 <script lang="ts">
 import { FormInstance } from 'element-plus';
 import { defineComponent, onMounted, reactive, ref, toRefs } from 'vue'
-import { _createBanner, _getBanner, _updateBanner } from '../api/banner'
+import { _createNotice, _getNotice, _updateNotice } from '../api/notice'
 
 export default defineComponent({
     setup() {
@@ -70,35 +63,33 @@ export default defineComponent({
         })
 
         // 新增一级分类
-        const bannerRef = ref<FormInstance>();
-        let bannerForm = reactive({ show: false, _id: '', name: '', url: '', mid: '' });
-        const showBanner = (row: any) => {
-            bannerForm.show = true;
+        const noticeRef = ref<FormInstance>();
+        let noticeForm = reactive({ show: false, _id: '', message: '', mid: '' });
+        const showNotice = (row: any) => {
+            noticeForm.show = true;
             if (row) {
-                bannerForm._id = row._id;
-                bannerForm.name = row.name;
-                bannerForm.url = row.url;
-                bannerForm.mid = row.mid;
+                noticeForm._id = row._id;
+                noticeForm.message = row.message;
+                noticeForm.mid = row.mid;
             }
         }
        
-        const saveBanner = (formEl: FormInstance | undefined) => {
+        const saveNotice = (formEl: FormInstance | undefined) => {
             if (!formEl) return
             formEl.validate((valid) => {
                 if (valid) {
                     let res;
-                    if (bannerForm._id) {
-                        res = _updateBanner(bannerForm._id, bannerForm)
+                    if (noticeForm._id) {
+                        res = _updateNotice(noticeForm._id, noticeForm)
                     } else {
-                        res = _createBanner({ name: bannerForm.name, url: bannerForm.url, mid: bannerForm.mid })
+                        res = _createNotice({ message: noticeForm.message, mid: noticeForm.mid })
                     }
                     res.then(() => {
-                        getBanner();
-                        bannerForm.show = false;
-                        bannerForm._id = '';
-                        bannerForm.name = '';
-                        bannerForm.url = '';
-                        bannerForm.mid = '';
+                        getNotice();
+                        noticeForm.show = false;
+                        noticeForm._id = '';
+                        noticeForm.message = '';
+                        noticeForm.mid = '';
                     });
                 } else {
                     return false
@@ -106,9 +97,9 @@ export default defineComponent({
             })
         }
 
-        const getBanner = () => {
+        const getNotice = () => {
             state.loading = true;
-            _getBanner({
+            _getNotice({
                 currentPage: state.currentPage,
                 pageSize: state.pageSize,
             }).then(res => {
@@ -123,30 +114,30 @@ export default defineComponent({
         }
 
         const online = (row: any) => {
-            _updateBanner(row._id, { status: 1 }).then(() => {
-                getBanner()
+            _updateNotice(row._id, { status: 1 }).then(() => {
+                getNotice()
             })
         }
 
         const offline = (row: any) => {
-            _updateBanner(row._id, { status: 0 }).then(() => {
-                getBanner()
+            _updateNotice(row._id, { status: 0 }).then(() => {
+                getNotice()
             })
         }
 
         onMounted(() => {
-            getBanner()
+            getNotice()
         })
 
         return {
             ...toRefs(state),
-            getBanner,
+            getNotice,
             online,
             offline,
-            bannerRef,
-            bannerForm,
-            showBanner,
-            saveBanner,
+            noticeRef,
+            noticeForm,
+            showNotice,
+            saveNotice,
         }
     },
 })

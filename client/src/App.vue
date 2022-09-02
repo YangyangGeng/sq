@@ -24,7 +24,7 @@
               <el-menu-item index="/home"><el-icon><HomeFilled /></el-icon><span>首页</span></el-menu-item>
               <el-menu-item index="/banner"><el-icon><Wallet /></el-icon><span>Banner运营位</span></el-menu-item>
               <el-menu-item index="/category"><el-icon><TurnOff /></el-icon><span>分类管理</span></el-menu-item>
-              <el-menu-item index="/message"><el-icon><ChatLineRound /></el-icon><span>消息通知</span></el-menu-item>
+              <el-menu-item index="/notice"><el-icon><ChatLineRound /></el-icon><span>消息通知</span></el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
           <el-sub-menu index="2">
