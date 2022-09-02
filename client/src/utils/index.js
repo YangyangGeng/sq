@@ -30,5 +30,7 @@ export const pathMap = {
   login: '登录',
   home: '首页',
   user: '用户管理',
-  topic: '分类管理',
+  category: '分类管理',
+  message: '系统消息管理',
+  banner: '运营位管理',
 }

@@ -2,14 +2,18 @@
     import Login from '../views/Login.vue'
     import Home from '../views/Home.vue'
     import User from '../views/User.vue'
-    import Topics from '../views/Topics.vue'
+    import Category from '../views/Category.vue'
+    import Banner from '../views/Banner.vue'
+    import SystemMessage from '../views/SystemMessage.vue'
 
     const routes = [
         { path: '/', redirect: '/home' },
         { path: '/home', name: 'home', component: Home },
         { path: '/login', name: 'login', component: Login },
         { path: '/user', name: 'user', component: User },
-        { path: '/topic', name: 'topic', component: Topics },
+        { path: '/category', name: 'category', component: Category },
+        { path: '/message', name: 'message', component: SystemMessage },
+        { path: '/banner', name: 'banner', component: Banner },
     ]
   
   // 3. 创建路由实例并传递 `routes` 配置

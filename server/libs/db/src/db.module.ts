@@ -2,12 +2,18 @@ import { Global, Module } from '@nestjs/common';
 import { DbService } from './db.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from './schemas/user.schema';
+import { CategorySchema } from './schemas/category.schema';
 
 const MONGO_MODELS = MongooseModule.forFeature([
     {
         name: 'USER_MODEL',
         schema: UserSchema,
         collection: 'user'
+    },
+    {
+        name: 'CATEGORY_MODEL',
+        schema: CategorySchema,
+        collection: 'category'
     }
 ])
 

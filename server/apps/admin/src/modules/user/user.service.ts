@@ -30,7 +30,6 @@ export class UserService {
     public async findAll(pageSize: number, currentPage: number, params: any) {
         try {
             const queryParams = {} as any;
-            console.log('params：', params);
             
             Object.keys(params).forEach((key) => {
                 if (params[key]) {
@@ -39,7 +38,7 @@ export class UserService {
             });
             
             const total:number = await this.userModel.countDocuments(queryParams)
-            await this.userModel.find(queryParams)
+            await this.userModel.find(queryParams, { salt: 0, password: 0 })
             .skip(currentPage ? pageSize * (currentPage - 1) : 0)
             .limit(pageSize).then(res => {
                 this.response = {
