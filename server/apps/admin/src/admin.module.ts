@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { CategoryModule } from './modules/category/category.module';
 import { BannerModule } from './modules/banner/banner.module';
 import { NoticeModule } from './modules/notice/notice.module';
+import { CityModule } from './modules/city/city.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { NoticeModule } from './modules/notice/notice.module';
     CategoryModule,
     BannerModule,
     NoticeModule,
+    CityModule,
   ],
   controllers: [AdminController],
   providers: [AdminService],

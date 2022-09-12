@@ -3,6 +3,7 @@
     import Home from '../views/Home.vue'
     import User from '../views/User.vue'
     import Category from '../views/Category.vue'
+    import City from '../views/City.vue'
     import Banner from '../views/Banner.vue'
     import Notice from '../views/Notice.vue'
 
@@ -12,6 +13,7 @@
         { path: '/login', name: 'login', component: Login },
         { path: '/user', name: 'user', component: User },
         { path: '/category', name: 'category', component: Category },
+        { path: '/city', name: 'city', component: City },
         { path: '/notice', name: 'notice', component: Notice },
         { path: '/banner', name: 'banner', component: Banner },
     ]
