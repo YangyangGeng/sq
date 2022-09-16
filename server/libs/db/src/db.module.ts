@@ -7,6 +7,7 @@ import { BannerSchema } from './schemas/banner.schema';
 import { NoticeSchema } from './schemas/notice.schema';
 import { CustomerSchema } from './schemas/customer.schema';
 import { CitySchema } from './schemas/city.schema';
+import { MessageSchema } from './schemas/message.schema';
 
 const MONGO_MODELS = MongooseModule.forFeature([
     { name: 'USER_MODEL', schema: UserSchema, collection: 'user' },
@@ -15,6 +16,7 @@ const MONGO_MODELS = MongooseModule.forFeature([
     { name: 'NOTICE_MODEL', schema: NoticeSchema, collection: 'notice' },
     { name: 'CUSTOMER_MODEL', schema: CustomerSchema, collection: 'customer' },
     { name: 'CITY_MODEL', schema: CitySchema, collection: 'city' },
+    { name: 'MESSAGE_MODEL', schema: MessageSchema, collection: 'message' },
 ])
 
 @Global()

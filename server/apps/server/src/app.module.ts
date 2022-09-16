@@ -8,6 +8,7 @@ import { HomeModule } from './modules/home/home.module';
 import { CityModule } from './modules/city/city.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './guards/auth.guard';
+import { MessageModule } from './modules/message/message.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { JwtAuthGuard } from './guards/auth.guard';
     AuthModule,
     HomeModule,
     CityModule,
+    MessageModule,
   ],
   controllers: [AppController],
   providers: [

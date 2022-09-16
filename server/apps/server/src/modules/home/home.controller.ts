@@ -10,6 +10,7 @@ export class HomeController {
         private readonly homeService: HomeService
     ) {}
 
+    @Pass()
     @Post('getHome')
     @ApiOperation({
         summary: '获取首页数据'
