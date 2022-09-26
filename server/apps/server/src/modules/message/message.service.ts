@@ -1,5 +1,6 @@
 import { IWXResponse } from '@libs/db/interface/wx.respones.interface';
 import { Category } from '@libs/db/schemas/category.schema';
+import { Customer } from '@libs/db/schemas/customer.schema';
 import { Message } from '@libs/db/schemas/message.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -10,12 +11,13 @@ export class MessageService {
     private response: IWXResponse;
     constructor(
         @InjectModel('MESSAGE_MODEL') private readonly messageModel: Model<Message>,
-        @InjectModel('CATEGORY_MODEL') private readonly categoryModel: Model<Category>
+        @InjectModel('CATEGORY_MODEL') private readonly categoryModel: Model<Category>,
+        @InjectModel('CUSTOMER_MODEL') private readonly customerModel: Model<Customer>
     ) {}
 
     public async list(pageSize: number, currentPage: number, params: any) {
         try {
-            const queryParams = { status: 2 } as any;
+            const queryParams = {} as any;
             Object.keys(params).forEach((key) => {
                 if (params[key]) {
                   queryParams[key] = params[key]; // 所有字段反对含糊查问、%%之间不能有空格
@@ -23,11 +25,19 @@ export class MessageService {
             });
             // const categories = await this.categoryModel.find({ isDel: 0 }, { isDel: 0, __v: 0, url: 0, pid: 0, status: 0 });
             // console.log('categoryAll：', categories);
-            
             const total:number = await this.messageModel.countDocuments(queryParams)
             await this.messageModel.find(queryParams, {__v: 0})
             .skip(currentPage ? pageSize * (currentPage - 1) : 0)
-            .limit(pageSize).then(res => {
+            .limit(pageSize).populate([{
+                path: 'childCategory',
+                model: this.categoryModel,
+                select: '_id name'
+            },{
+                path: 'customer',
+                model: this.customerModel,
+                select: '_id nickName avatar'
+            }])
+            .then(res => {
                 this.response = {
                     success: true,
                     data: {
@@ -46,37 +56,37 @@ export class MessageService {
     // 添加发布信息，进入审核状态
     public async create(message: Message) {
         try {
-            const createNotice = new this.messageModel(message)
-            createNotice.save().catch(err => err).then(res => {
+            const createMessage = new this.messageModel(message)
+            return await createMessage.save().then(res => {
                 if (!res._id) {
                     throw res;
                 }
-                this.response = {
+                return this.response = {
                     success: true,
-                    msg: '创建发布消息成功！'
+                    msg: '发布消息成功！'
                 }
             }).catch((error) => {
                 this.response = {
                     success: false,
                     msg: error._message
                 }
+                return this.response
             });
-            return this.response
         } catch (error) {
             this.response = {
                 success: false,
                 msg: '创建发布消息失败，请联系相关人员' + error
             }
-            return this.response
+            throw this.response
         }
     }
 
     public async update(message: Message, id: string) {
         try {
-            const { openid } = message;
+            const { customer } = message;
             const dbMessage = await this.findOne(id);
 
-            if (dbMessage.openid !== openid) {
+            if (dbMessage._id !== customer) {
                 throw {
                     success: false,
                     msg: '只能本人修改'

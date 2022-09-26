@@ -30,7 +30,18 @@ export class AuthService {
         return await this.customerService.findOneByOpenID(wxInfo.openid)
         .then(async res => {
             if (res) {
-                userInfo = res;
+                return this.response = {
+                    success: true,
+                    msg: '登录成功',
+                    data: {
+                        _id: res._id,
+                        token: res.token,
+                        openid: res.openid,
+                        nickName: res.nickName,
+                        avatar: res.avatar,
+                        gender: res.gender,
+                    },
+                }
             } else {
                 try {
                     const pc = new WXBizDataCrypt(this.appid, wxInfo.session_key)
@@ -47,7 +58,29 @@ export class AuthService {
                         token
                     }
                     const createCustomer = new this.customerModel(userInfo);
-                    createCustomer.save();
+                    return await createCustomer.save().then(res => {
+                        if (!res._id) {
+                            throw res;
+                        }
+                        return this.response = {
+                            success: true,
+                            msg: '登录成功',
+                            data: {
+                                _id: res._id,
+                                token: userInfo.token,
+                                openid: wxInfo.openid,
+                                nickName: userInfo.nickName,
+                                avatar: userInfo.avatar,
+                                gender: userInfo.gender,
+                            },
+                        }
+                    }).catch((error) => {
+                        this.response = {
+                            success: false,
+                            msg: error._message
+                        }
+                        return this.response
+                    });;
                 } catch (error) {
                     this.response = {
                         success: false,
@@ -55,17 +88,6 @@ export class AuthService {
                     }
                     throw this.response
                 }
-            }
-            return this.response = {
-                success: true,
-                msg: '登录成功',
-                data: {
-                    token: userInfo.token,
-                    openid: wxInfo.openid,
-                    nickName: userInfo.nickName,
-                    avatar: userInfo.avatar,
-                    gender: userInfo.gender,
-                },
             }
         }).catch(err => {
             return err
